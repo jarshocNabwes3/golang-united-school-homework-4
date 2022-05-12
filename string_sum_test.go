@@ -6,8 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStringSum(t *testing.T) {
+func testEmptyResultAndError(t *testing.T, input, resultExpected string, errExpected error) {
 	result, err := StringSum(``)
-	assert.EqualErrorf(t, err, errorEmptyInput.Error(), "Error should be: %v, got: %v", errorEmptyInput.Error(), err)
-	assert.Equal(t, ``, result, `Result string differs from expected: Input: '%v'; Expected: '%v'; Result: '%v'`, ``, ``, result)
+	assert.EqualErrorf(t, err, errorEmptyInput.Error(), "Input: '%v' Error should be: %v, got: %v", input, errExpected.Error(), err)
+	assert.Equal(t, ``, result, `Result string differs from expected: Input: '%v'; Expected: '%v'; Result: '%v'`, ``, resultExpected, result)
+}
+
+func TestStringSum(t *testing.T) {
+	testEmptyResultAndError(t, ``, ``, errorEmptyInput)
 }
