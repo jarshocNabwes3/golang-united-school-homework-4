@@ -14,4 +14,7 @@ func testEmptyResultAndError(t *testing.T, input, resultExpected string, errExpe
 
 func TestStringSum(t *testing.T) {
 	testEmptyResultAndError(t, ``, ``, errorEmptyInput)
+	testEmptyResultAndError(t, ` `, ``, errorEmptyInput)
+	testEmptyResultAndError(t, ` 
+		``, ``, errorEmptyInput)
 }
