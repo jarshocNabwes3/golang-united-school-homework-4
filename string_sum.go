@@ -83,6 +83,7 @@ func StringSum(input string) (output string, err error) {
 		operand := 0
 
 		operandString := operands[i]
+		operandString = regexp.MustCompile(`^\+`).ReplaceAllString(operandString, ``)
 		operand, err = strconv.Atoi(operandString)
 		if err != nil {
 			err = fmt.Errorf(`sum: strconv Atoi error: '%w', operand: '%v'`, err, operandString)
