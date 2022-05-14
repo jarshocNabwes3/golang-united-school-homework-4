@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -26,7 +27,7 @@ var (
 func StringSum(input string) (output string, err error) {
 	input = strings.TrimSpace(input)
 	if input == `` {
-		return ``, errorEmptyInput
+		return ``, fmt.Errorf(`sum: %w`, errorEmptyInput)
 	}
 	return "", nil
 }

@@ -1,20 +1,27 @@
 package string_sum
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func testInOutErr(t *testing.T, input, resultExpected string, errExpected error) {
-	result, err := StringSum(``)
-	assert.EqualErrorf(t, err, errorEmptyInput.Error(), "Input: '%v' Error should be: %v, got: %v", input, errExpected.Error(), err)
-	assert.Equal(t, ``, result, `Result string differs from expected: Input: '%v'; Expected: '%v'; Result: '%v'`, ``, resultExpected, result)
+func testSumInOutErr(t *testing.T, input, resultExpected string, errExpected error) {
+	result, err := StringSum(input)
+
+	// test error
+	errToTest := errors.Unwrap(err)
+	errStringExpected := errExpected.Error()
+	assert.EqualErrorf(t, errToTest, errStringExpected, "Input: '%v' Error should be: '%v', got: '%v'", input, errStringExpected, errToTest)
+
+	// test result
+	assert.Equal(t, resultExpected, result, `Result string differs from expected: Input: '%v'; Expected: '%v'; Result: '%v'`, input, resultExpected, result)
 }
 
 func TestStringSum(t *testing.T) {
-	testInOutErr(t, ``, ``, errorEmptyInput)
-	testInOutErr(t, ` `, ``, errorEmptyInput)
-	testInOutErr(t, ` 
+	testSumInOutErr(t, ``, ``, errorEmptyInput)
+	testSumInOutErr(t, ` `, ``, errorEmptyInput)
+	testSumInOutErr(t, ` 
 		`, ``, errorEmptyInput)
 }
