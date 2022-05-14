@@ -14,6 +14,7 @@ var (
 	// Use when the expression has number of operands not equal to two
 	errorNotTwoOperands     = errors.New("expecting two operands, but received more or less")
 	errorNotSingleOperation = errors.New("expecting one operation, but received")
+	emptySlice              = make([]string, 0)
 )
 
 // Implement a function that computes the sum of two int numbers written as a string
@@ -44,7 +45,7 @@ func findOperation(input string) (operation []string, err error) {
 	input = regexp.MustCompile(`(?ms)[ \t\r]+`).ReplaceAllString(input, ``)
 	inputSingleLine := regexp.MustCompile(`\n`).ReplaceAllString(input, ``)
 	if inputSingleLine == `` {
-		return make([]string, 0), fmt.Errorf(`sum: %w`, errorEmptyInput)
+		return emptySlice, fmt.Errorf(`sum: %w`, errorEmptyInput)
 	}
 
 	input = regexp.MustCompile(`(?s)([^\n])$`).ReplaceAllString(input,
@@ -52,11 +53,11 @@ func findOperation(input string) (operation []string, err error) {
 
 	operations := regexp.MustCompile(`([-+]?[^-+\s]+)([-+][^-+\s]+)?([-+][^-+\s]+)*[$\n]`).FindAllStringSubmatch(input, 2)
 	if operations == nil {
-		return make([]string, 0), fmt.Errorf(`sum: %w: '%v'`, errorNotSingleOperation, 0)
+		return emptySlice, fmt.Errorf(`sum: %w: '%v'`, errorNotSingleOperation, 0)
 	}
 	operationsCount := len(operations)
 	if operationsCount != 1 {
-		return make([]string, 0), fmt.Errorf(`sum: %w: '%v'`, errorNotSingleOperation, operationsCount)
+		return emptySlice, fmt.Errorf(`sum: %w: '%v'`, errorNotSingleOperation, operationsCount)
 	}
 	operation = operations[0][1:len(operations[0])]
 	operation = chopEverylastEmpty(operation)
