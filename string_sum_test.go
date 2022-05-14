@@ -67,8 +67,8 @@ func testNotTwoOperands(t *testing.T) {
 	testSumInOutErr(t, "-76+125 - 852", ``, errorNotTwoOperands)
 
 	testSumInOutErr(t, "a76+125z + m8n52", ``, errorNotTwoOperands)
-	testSumInOutErr(t, "7p6-q1w2k5v + 852k", ``, errorNotTwoOperands)
-	testSumInOutErr(t, "-a76s+f1d25 - 8w5e2C", ``, errorNotTwoOperands)
+	testSumInOutErr(t, "7p6- q1w2k5v + 852k", ``, errorNotTwoOperands)
+	testSumInOutErr(t, " -a76s+f1d25 - 8w5e2C", ``, errorNotTwoOperands)
 }
 
 func testSumInOut(t *testing.T, input, resultExpected string) {

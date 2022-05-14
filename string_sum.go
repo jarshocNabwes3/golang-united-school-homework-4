@@ -26,6 +26,19 @@ var (
 //
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
+func chopEverylastEmpty(input []string) (output []string) {
+	inputLen := len(input)
+	lastElem := input[inputLen-1]
+
+	if lastElem == `` {
+		output = chopEverylastEmpty(input[0 : inputLen-1])
+	} else {
+		output = input
+	}
+
+	return
+}
+
 func findOperation(input string) (operation []string, err error) {
 
 	input = regexp.MustCompile(`(?ms)[ \t\r]+`).ReplaceAllString(input, ``)
@@ -37,7 +50,7 @@ func findOperation(input string) (operation []string, err error) {
 	input = regexp.MustCompile(`(?s)([^\n])$`).ReplaceAllString(input,
 		"$1\n")
 
-	operations := regexp.MustCompile(`([-+]?[^-+\s]+)([-+][^-+\s]+)([-+][^-+\s]+)?[$\n]`).FindAllStringSubmatch(input, 2)
+	operations := regexp.MustCompile(`([-+]?[^-+\s]+)([-+][^-+\s]+)?([-+][^-+\s]+)*[$\n]`).FindAllStringSubmatch(input, 2)
 	if operations == nil {
 		return make([]string, 0), fmt.Errorf(`sum: %w: '%v'`, errorNotSingleOperation, 0)
 	}
@@ -45,7 +58,8 @@ func findOperation(input string) (operation []string, err error) {
 	if operationsCount != 1 {
 		return make([]string, 0), fmt.Errorf(`sum: %w: '%v'`, errorNotSingleOperation, operationsCount)
 	}
-	operation = operations[0]
+	operation = operations[0][1:len(operations[0])]
+	operation = chopEverylastEmpty(operation)
 
 	return
 }
@@ -57,14 +71,11 @@ func StringSum(input string) (output string, err error) {
 	}
 
 	operationCount := len(operation)
-	if operationCount != 4 {
+	if operationCount != 2 {
 		return ``, fmt.Errorf(`sum: %w`, errorNotTwoOperands)
 	}
-	lastOperand := operation[3:4][0]
-	if lastOperand != `` {
-		return ``, fmt.Errorf(`sum: %w`, errorNotTwoOperands)
-	}
-	operands := operation[1:3]
+
+	operands := operation[0:2]
 
 	sum := 0
 	for i := range operands {
