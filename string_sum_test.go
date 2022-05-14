@@ -50,6 +50,8 @@ func testNotSingleOperations(t *testing.T) {
 	P1+1t
 		f1+L1`, ``, errorNotSingleOperation)
 	testSumInOutErr(t, "7R6+1\n1o+1\n"+"			1+1\n", ``, errorNotSingleOperation)
+
+	testSumInOutErr(t, "76+125-\n", ``, errorNotSingleOperation)
 }
 
 func testNotTwoOperands(t *testing.T) {
