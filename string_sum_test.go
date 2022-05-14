@@ -8,6 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const atomicSum = `1+1`
+
 func testSumInOutErr(t *testing.T, input, resultExpected string, errExpected error) {
 	result, err := StringSum(input)
 
@@ -32,10 +34,10 @@ func testNotSingleOperations(t *testing.T) {
 	testSumInOutErr(t, `11`, ``, errorNotSingleOperation)
 	testSumInOutErr(t, `a`, ``, errorNotSingleOperation)
 	testSumInOutErr(t, "76+125 + 852+", ``, errorNotSingleOperation)
-	testSumInOutErr(t, ` 1+1
-	1+1
-		1+1`, ``, errorNotSingleOperation)
-	testSumInOutErr(t, "-51+1\n912+158\n"+"			1+1\n", ``, errorNotSingleOperation)
+	testSumInOutErr(t, ` `+atomicSum+`
+	`+atomicSum+`
+		`+atomicSum, ``, errorNotSingleOperation)
+	testSumInOutErr(t, "-51+1\n912+158\n"+"			"+atomicSum+"\n", ``, errorNotSingleOperation)
 	testSumInOutErr(t, ` 41+33
 	1+1
 		1+1`, ``, errorNotSingleOperation)
