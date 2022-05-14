@@ -30,9 +30,7 @@ func testStringEmpties(t *testing.T) {
 }
 
 func testNotSingleOperations(t *testing.T) {
-	testSumInOutErr(t, `1`, ``, errorNotSingleOperation)
-	testSumInOutErr(t, `11`, ``, errorNotSingleOperation)
-	testSumInOutErr(t, `a`, ``, errorNotSingleOperation)
+
 	testSumInOutErr(t, "76+125 + 852+", ``, errorNotSingleOperation)
 	testSumInOutErr(t, ` `+atomicSum+`
 	`+atomicSum+`
@@ -43,9 +41,6 @@ func testNotSingleOperations(t *testing.T) {
 		1+1`, ``, errorNotSingleOperation)
 	testSumInOutErr(t, "76+1\n1+1\n"+"			1+1\n", ``, errorNotSingleOperation)
 
-	testSumInOutErr(t, `a1`, ``, errorNotSingleOperation)
-	testSumInOutErr(t, `a11`, ``, errorNotSingleOperation)
-	testSumInOutErr(t, `1a`, ``, errorNotSingleOperation)
 	testSumInOutErr(t, "7a6+12z5 + 8M52+", ``, errorNotSingleOperation)
 	testSumInOutErr(t, ` S1+1S
 	1N+N1
@@ -58,6 +53,15 @@ func testNotSingleOperations(t *testing.T) {
 }
 
 func testNotTwoOperands(t *testing.T) {
+
+	testSumInOutErr(t, `1`, ``, errorNotTwoOperands)
+	testSumInOutErr(t, `11`, ``, errorNotTwoOperands)
+	testSumInOutErr(t, `a`, ``, errorNotTwoOperands)
+
+	testSumInOutErr(t, `a1`, ``, errorNotTwoOperands)
+	testSumInOutErr(t, `a11`, ``, errorNotTwoOperands)
+	testSumInOutErr(t, `1a`, ``, errorNotTwoOperands)
+
 	testSumInOutErr(t, "76+125 + 852", ``, errorNotTwoOperands)
 	testSumInOutErr(t, "76-125 + 852", ``, errorNotTwoOperands)
 	testSumInOutErr(t, "-76+125 - 852", ``, errorNotTwoOperands)
