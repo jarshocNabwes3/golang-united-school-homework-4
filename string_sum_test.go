@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -75,7 +76,22 @@ func testSumInOut(t *testing.T, input, resultExpected string) {
 	assert.Equal(t, resultExpected, result, `Result string differs from expected: Input: '%v'; Expected: '%v'; Result: '%v'`, input, resultExpected, result)
 }
 
+func testSumInOutErrStrconv(t *testing.T, input string) {
+	_, err := StringSum(input)
+	if err == nil {
+		assert.Fail(t, `Input '%v': has to fail`, input)
+	} else {
+		errToTest := errors.Unwrap(err)
+		_, ok := errToTest.(*strconv.NumError)
+		assert.True(t, ok, `Unwrapped error: '%v' has to be 'NumError' of 'strconv'`, errToTest)
+	}
+}
+
 func testSums(t *testing.T) {
+	testSumInOutErrStrconv(t, "-76+125a")
+	testSumInOutErrStrconv(t, "+7k6c-1w25")
+	testSumInOutErrStrconv(t, "-7ew6+125at")
+
 	testSumInOut(t, "-76+125", "49")
 	testSumInOut(t, "+76-125", "-49")
 	testSumInOut(t, "76+125", "201")
